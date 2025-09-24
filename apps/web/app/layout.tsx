@@ -1,30 +1,33 @@
-import { Geist, Geist_Mono } from "next/font/google"
+"use client";
 
-import "@workspace/ui/globals.css"
-import { Providers } from "@/components/providers"
+import { Geist, Geist_Mono } from "next/font/google";
+import "@workspace/ui/globals.css";
+import { ConvexProvider, ConvexReactClient } from "convex/react";
+
+const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 const fontSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
-})
+});
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-})
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
-        <Providers>{children}</Providers>
+        <ConvexProvider client={convex}>{children}</ConvexProvider>
       </body>
     </html>
-  )
+  );
 }
